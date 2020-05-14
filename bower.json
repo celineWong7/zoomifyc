@@ -1,10 +1,10 @@
 {
-  "name": "zoomify",
-  "version": "0.2.5",
+  "name": "zoomifyc",
+  "version": "0.1.0",
   "authors": [
     "Indri Muska <indrimuska@gmail.com>"
   ],
-  "description": "Zoomify is a jQuery plugin for simple lightboxes with zoom effect.",
+  "description": "Zoomifyc is a jQuery plugin for Image with zoom effect.",
   "main": [
     "./dist/zoomify.js"
   ],

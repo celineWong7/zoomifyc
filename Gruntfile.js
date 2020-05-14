@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			options: {
-				banner: '/*! Zoomifyc - v<%= pkg.version %> - https://github.com/indrimuska/zoomifyc - (c) 2020 Wang Xiaolin - MIT */\n'
+				banner: '/*! Zoomifyc - v<%= pkg.version %> - https://github.com/celineWong7/zoomifyc - (c) 2020 Wang Xiaolin - MIT */\n'
 			},
 			main: {
 				files: {

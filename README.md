@@ -1,8 +1,7 @@
-# Zoomify
+# Zoomifyc
 
-[![Join the chat at https://gitter.im/indrimuska/zoomify](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/indrimuska/zoomify?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Zoomify is a jQuery plugin for simple lightboxes with zoom effect.
+Zoomifyc is a jQuery plugin for simple Image with zoom effect.
 
 Check out the examples page: [http://indrimuska.github.io/zoomify](http://indrimuska.github.io/zoomify).
 
@@ -11,9 +10,9 @@ Check out the examples page: [http://indrimuska.github.io/zoomify](http://indrim
 ## Installation
 
 ```html
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="js/vendor/zoomify/dist/zoomify.min.js"></script>
-<link href="css/vendor/zoomify/dist/zoomify.min.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery-3.5.0.min.js"></script>
+	<script type="text/javascript" src="zoomifyc.js"></script>
+	<link rel="stylesheet" type="text/css" href="zoomifyc.css">
 ```
 
 ## Usage
@@ -21,11 +20,12 @@ Check out the examples page: [http://indrimuska.github.io/zoomify](http://indrim
 Enable zoomify via JavaScript:
 
 ```javascript
-$('img.myImage1').zoomify(); // Default settings
-$('img.myImage2').zoomify({ duration: 1000 }); // 1s duration
+$(document).ready(function(){
+	zoomifyc.init($('#imgBox img'));
+});
 ```
 
-## Options
+<!-- ## Options
 
 Property | Type | Default | Description
 ---|---|---|---
@@ -62,8 +62,8 @@ zoom-out-complete.zoomify | Fired after each zoom-out transformation.
 $('#myImage').on('zoom-in.zoomify', function () {
     // do something...
 });
-```
+``` -->
 
 ## License
 
-Copyright (c) 2015 Indri Muska. Licensed under the MIT license.
+Copyright (c) 2020 Wang Xiaolin. Licensed under the MIT license.

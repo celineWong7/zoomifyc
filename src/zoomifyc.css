@@ -1,0 +1,120 @@
+img.zoomifyc {
+	cursor: zoom-in;
+}
+
+/*遮罩*/
+.zoomifyc-shadow {
+	position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1500;
+    background: rgba(0, 0, 0 , .3);
+}
+.zoomifyc-shadow {
+	opacity: 1;
+	cursor: zoom-out;
+}
+
+/*内容块*/
+.zoomifyc-content {
+	position: absolute;
+	width: 100%;
+	/*top: 0;需要计算*/
+}
+
+/*缩放图片*/
+.zoomifyc-imgbox {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	margin: auto;
+	width: 600px; /*需要计算*/
+	height: 500px; /*需要计算*/
+	z-index: 1501;
+}
+
+/*上下切换按钮*/
+.zoomifyc-switch {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	height: 50px;
+	margin: auto;
+	width: 80%;
+	padding: 0 10px;
+	font-size: 40px;
+	/*z-index: 1502;*/
+}
+.zoomifyc-switch>span {
+	position: relative;
+	padding: 5px 10px;
+/*	color: #fff;
+	background: rgba(0,0,0,0.6);
+	z-index: 1503;
+	*/
+}
+.zoomifyc-switch .prev {
+	float: left;
+	
+}
+.zoomifyc-switch .next {
+	float: right;
+}
+
+/*关闭按钮*/
+.zoomifyc-content .zoomifyc-close {
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	border-radius: 20px;
+/*	background-color: rgba(0,0,0,0.6);
+	color: #fff;
+	z-index: 1503;*/
+}
+
+.zoomifyc-close,
+.zoomifyc-switch .prev,
+.zoomifyc-switch .next {
+	color: #fff;
+	background-color: rgba(0,0,0,0.6);
+	cursor: pointer;
+	z-index: 1503;
+}
+.zoomifyc-close:hover,
+.zoomifyc-switch .prev:hover,
+.zoomifyc-switch .next:hover {
+	background-color: rgba(0,0,0,0.8);
+}
+
+
+/*工具栏*/
+/*.zoomifyc-tools {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+	z-index: 5003;
+	text-align: center;
+
+}
+.zoomifyc-tools .tool-list {
+	display: inline-block;
+	border-radius: 6px;
+	box-sizing: border-box;
+	padding: 5px 15px;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: #fff;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>zoomifyc的demo</title>
+	<link rel="stylesheet" type="text/css" href="zoomifyc.css">
+	<meta charset="utf-8">
+	<style type="text/css">
+		#imgBox img {
+			width: 200px;
+		}
+	</style>
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<!-- 图片列表 -->
+	<div id="imgBox">
+		<img src="./img/chaoshan1.jpg"><br/>
+		<img src="./img/chaoshan2.jpg"><br/>
+		<img src="./img/chaoshan3.jpg"><br/>
+		<img src="./img/gugong1.jpg"><br/>
+		<img src="./img/chaoshan3.jpg"><br/>
+	</div>
+	
+	<!-- 测试scroll -->
+	<div style="height: 2000px;background-color: pink;">增加页面高度，测试scroll效果。</div>
+
+
+	<!-- 引入js文件 -->
+	<script type="text/javascript" src="jquery-3.5.0.min.js"></script>
+	<script type="text/javascript" src="zoomifyc.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// 初始化zoomifyc
+			zoomifyc.init($('#imgBox img'));
+		});
+	</script>
+</body>
+</html>

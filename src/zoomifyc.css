@@ -49,14 +49,15 @@ img.zoomifyc {
 	left: 0;
 	height: 50px;
 	margin: auto;
-	width: 80%;
+	width: 60%;
 	padding: 0 10px;
 	font-size: 40px;
 	/*z-index: 1502;*/
 }
 .zoomifyc-switch>span {
 	position: relative;
-	padding: 5px 10px;
+	padding: 5px 2%;
+	border-radius: 5px;
 /*	color: #fff;
 	background: rgba(0,0,0,0.6);
 	z-index: 1503;

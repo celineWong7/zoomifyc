@@ -3,9 +3,8 @@
 
 Zoomifyc is a jQuery plugin for simple Image with zoom effect.
 
-Check out the examples page: [http://indrimuska.github.io/zoomify](http://indrimuska.github.io/zoomify).
+<!-- Check out the examples page: [http://celineWong7.github.io/zoomifyc](http://celineWong7.github.io/zoomifyc). -->
 
-![Zoomify: jQuery Plugin for lightboxes](http://indrimuska.github.io/zoomify/img/zoomify-preview.png)
 
 ## Installation
 

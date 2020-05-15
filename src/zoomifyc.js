@@ -12,6 +12,7 @@ zoomifyc = {
 	curIndex: 0, // 当前点击图片的索引
 	allImage: null, // 所有图片对象（jq对象列表）
 	_zoomed: false, // 是否在放大状态
+	rotate: 0, // 旋转角度
 	init: function(ele) {
 		zoomifyc.createWrap();
 
@@ -29,6 +30,11 @@ zoomifyc = {
 				zoomifyc.hideWrap();
 		});
 	},
+	reset: function(){
+		zoomifyc._zoomed = false;
+		zoomifyc.rotate = 0;
+		zoomifyc.rotateCss();
+	},
 	createWrap: function() {
 		if ($('#zoomifycWrap').length > 0) return;
 
@@ -41,9 +47,14 @@ zoomifyc = {
 			$next = $('<span class="next">&gt;</span>'),
 			$imgbox = $('<div class="zoomifyc-imgbox"></div>'),
 			$img = $('<img class="zoomifyc-img" src="" >');
+			$tools = $('<div class="zoomifyc-tools"></div>');
+			$leftRotate = $('<span class="left-rotate" title="左旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>');
+			$rightRotate = $('<span class="right-rotate" title="右旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>');
+
 		$imgbox.append($close,$img);
 		$switchBtn.append($prev, $next);
-		$content.append($switchBtn, $imgbox);
+		$tools.append($leftRotate, $rightRotate);
+		$content.append($switchBtn, $tools, $imgbox);
 		$wrap.append($shadow, $content);
 		$('body').append($wrap);
 
@@ -58,14 +69,23 @@ zoomifyc = {
 			if (zoomifyc.curIndex == zoomifyc.allImage.length - 1) return;
 			zoomifyc.allImage.eq(zoomifyc.curIndex + 1).trigger('click');
 		});
+
+		$leftRotate.on('click', function() {
+			zoomifyc.rotate -= 90;
+			zoomifyc.rotateCss();
+		});
+		$rightRotate.on('click', function() {
+			zoomifyc.rotate += 90;
+			zoomifyc.rotateCss();
+		});
 	},
 	hideWrap: function() {
-		zoomifyc._zoomed = false;
 		$('#zoomifycWrap').hide();
 		$('#zoomifycWrap .zoomifyc-img').attr('src', '');
 
 	},
 	showWrap: function(imgSrc) {
+		zoomifyc.reset();
 		zoomifyc._zoomed = true;
 		$('#zoomifycWrap').show();
 		$('#zoomifycWrap .zoomifyc-img').attr('src', imgSrc);
@@ -118,4 +138,16 @@ zoomifyc = {
 			// 'top': $(window).height()/2 + $(document).scrollTop()
 		});
 	},
+	rotateCss: function(){
+		console.log(zoomifyc.rotate)
+		var s = 'rotate(' + zoomifyc.rotate + 'deg)';
+		$('#zoomifycWrap .zoomifyc-imgbox').css({
+			'-webkit-transform': s,
+			'-moz-transform': s,
+			'-ms-transform': s,
+			'-o-transform': s,
+			'transform': s,
+			'transform-origin': 'center center'
+		});
+	}
 }

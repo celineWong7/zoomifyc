@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>弹窗效果的静态布局</title>
+	<link rel="stylesheet" type="text/css" href="zoomifyc.css">
+	<meta charset="utf-8">
+
+	<style type="text/css">
+		.zoomifyc-tools {
+			position: absolute;
+			bottom: 2px;
+			width: 100%;
+			z-index: 1504;
+			text-align: center;
+			background-color: rgba(0, 0, 0, .3);
+
+		}
+		.zoomifyc-tools span {
+			display: inline-block;
+			border-radius: 6px;
+			box-sizing: border-box;
+			/*padding: 5px 15px;*/
+			padding: 0.5% 1%;
+			background-color: rgba(0, 0, 0, 0.6);
+			color: #fff;
+		}
+
+		.zoomifyc-tools .left-rotate img{
+			transform: rotateY(180deg) rotate(45deg);
+		}
+
+		.zoomifyc-tools .right-rotate img{
+			transform: rotate(45deg);
+		}
+		.zoomifyc-tools span>img {
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+<div id="zoomifycWrap" style="">
+	<div class="zoomifyc-shadow"></div>
+	<div class="zoomifyc-content" style="height: 365px; top: 0px;">
+		<div class="zoomifyc-switch">
+			<span class="prev" style="">&lt;</span>
+			<span class="next">&gt;</span>
+		</div>
+		<div class="zoomifyc-tools">
+			<span class="left-rotate" title="左旋90°">
+				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII=">
+			</span>
+			<span class="right-rotate" title="右旋90°">
+				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII=">
+			</span>
+		</div>
+		<div class="zoomifyc-imgbox" style="width: 245.252px; height: 346.75px;">
+			<span class="zoomifyc-close">x</span>
+			<img class="zoomifyc-img" src="./img/chaoshan2.jpg" style="transform: scale(0.435616); transform-origin: 0px 0px;">
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

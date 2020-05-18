@@ -56,7 +56,7 @@ img.zoomifyc {
 }
 .zoomifyc-switch>span {
 	position: relative;
-	padding: 5px 2%;
+	padding: 1% 1%;
 	border-radius: 5px;
 /*	color: #fff;
 	background: rgba(0,0,0,0.6);
@@ -82,14 +82,48 @@ img.zoomifyc {
 	line-height: 20px;
 	text-align: center;
 	border-radius: 20px;
+	display: none;
 /*	background-color: rgba(0,0,0,0.6);
 	color: #fff;
 	z-index: 1503;*/
 }
 
+
+/*工具栏*/
+.zoomifyc-tools {
+	position: absolute;
+	bottom: 10%;
+	width: 100%;
+	text-align: center;
+	/*background-color: rgba(0, 0, 0, .2);*/
+
+}
+.zoomifyc-tools span {
+	position: relative;
+	display: inline-block;
+	/*padding: 5px 15px;*/
+	padding: 0.5% 1%;
+	border-radius: 6px;
+	background-color: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	margin: 0 2px;
+	/*z-index: 1503;*/
+}
+.zoomifyc-tools .left-rotate img{
+	transform: rotateY(180deg) rotate(45deg);
+}
+.zoomifyc-tools .right-rotate img{
+	transform: rotate(45deg);
+}
+.zoomifyc-tools span>img {
+	width: 100%;
+}
+
+/*操作按钮*/
 .zoomifyc-close,
 .zoomifyc-switch .prev,
-.zoomifyc-switch .next {
+.zoomifyc-switch .next,
+.zoomifyc-tools span {
 	color: #fff;
 	background-color: rgba(0,0,0,0.6);
 	cursor: pointer;
@@ -97,25 +131,7 @@ img.zoomifyc {
 }
 .zoomifyc-close:hover,
 .zoomifyc-switch .prev:hover,
-.zoomifyc-switch .next:hover {
+.zoomifyc-switch .next:hover,
+.zoomifyc-tools span:hover {
 	background-color: rgba(0,0,0,0.8);
-}
-
-
-/*工具栏*/
-/*.zoomifyc-tools {
-	position: absolute;
-	bottom: 10px;
-	width: 100%;
-	z-index: 5003;
-	text-align: center;
-
-}
-.zoomifyc-tools .tool-list {
-	display: inline-block;
-	border-radius: 6px;
-	box-sizing: border-box;
-	padding: 5px 15px;
-	background-color: rgba(0, 0, 0, 0.8);
-	color: #fff;
 }

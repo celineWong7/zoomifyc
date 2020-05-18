@@ -108,8 +108,8 @@ zoomifyc = {
 			nHeight = $image[0].naturalHeight || +Infinity,
 			wWidth  = $(window).width(),
 			wHeight = $(window).height(),
-			aWidth  = Math.min(nWidth, wWidth * 0.95),
-			aHeight = Math.min(nHeight, wHeight * 0.95)
+			aWidth  = Math.min(nWidth, wWidth * 0.98),
+			aHeight = Math.min(nHeight, wHeight * 0.98),
 			scaleX  = aWidth / nWidth,
 			scaleY  = aHeight / nHeight,
 			scale   = Math.min(scaleX, scaleY);
@@ -124,18 +124,17 @@ zoomifyc = {
 			'width': w,
 			'height': h
 		});
-		$('#zoomifycWrap .zoomifyc-img').css({
-			'-webkit-transform': s,
-			'-moz-transform': s,
-			'-ms-transform': s,
-			'-o-transform': s,
-			'transform': s,
-			'transform-origin': '0 0'
-		});
+		// $('#zoomifycWrap .zoomifyc-img').css({
+		// 	'-webkit-transform': s,
+		// 	'-moz-transform': s,
+		// 	'-ms-transform': s,
+		// 	'-o-transform': s,
+		// 	'transform': s,
+		// 	'transform-origin': '0 0'
+		// });
 		$('#zoomifycWrap .zoomifyc-content').css({
 			'height': $(window).height(),
 			'top': $(document).scrollTop()
-			// 'top': $(window).height()/2 + $(document).scrollTop()
 		});
 	},
 	rotateCss: function(){

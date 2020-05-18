@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>弹窗效果的静态布局</title>
-	<link rel="stylesheet" type="text/css" href="zoomifyc.css">
+	<title>zoomifyc的静态布局</title>
+	<link rel="stylesheet" type="text/css" href="../zoomifyc.css">
 	<meta charset="utf-8">
 
 	<style type="text/css">
@@ -12,7 +12,7 @@
 			width: 100%;
 			z-index: 1504;
 			text-align: center;
-			background-color: rgba(0, 0, 0, .3);
+			/*background-color: rgba(0, 0, 0, .3);*/
 
 		}
 		.zoomifyc-tools span {
@@ -35,6 +35,13 @@
 		.zoomifyc-tools span>img {
 			width: 100%;
 		}
+
+
+
+		/*放大缩小*/
+		.zoomifyc-imgbox {
+			cursor: zoom-in;
+		}
 	</style>
 </head>
 <body>
@@ -55,10 +62,76 @@
 		</div>
 		<div class="zoomifyc-imgbox" style="width: 245.252px; height: 346.75px;">
 			<span class="zoomifyc-close">x</span>
-			<img class="zoomifyc-img" src="./img/chaoshan2.jpg" style="transform: scale(0.435616); transform-origin: 0px 0px;">
+			<img class="zoomifyc-img" src="../img/qz2.jpg" style="transform: scale(0.435616); transform-origin: 0px 0px;">
 		</div>
 	</div>
 </div>
+
+
+
+<script type="text/javascript" src="../jquery-3.5.0.min.js"></script>
+<script type="text/javascript">
+	var isFirefox = navigator.userAgent.indexOf("Firefox") > -1 ;
+	var MOUSEWHEEL_EVENT = isFirefox ? "DOMMouseScroll" : "mousewheel";
+	var oImg =  $('.zoomifyc-img');
+	
+
+	if(document.attachEvent){
+		oImg[0].attachEvent("on"+MOUSEWHEEL_EVENT, function(e){
+			mouseWheelScroll(e);
+		});
+	} else if(document.addEventListener){
+		oImg[0].addEventListener(MOUSEWHEEL_EVENT, function(e){
+			mouseWheelScroll(e);
+		}, false);
+	}
+
+
+
+	function mouseWheelScroll(e){
+		var _delta = parseInt(e.wheelDelta || -e.detail);
+    	//向上滚动
+  		if (_delta > 0) {
+    		biggerImage();
+    	}
+    	//向下滚动
+    	else {
+        	smallerImage();
+    	}
+	}
+
+
+		function biggerImage(){
+  			var matrix = oImg.css('transform');
+  			console.log(matrix); //matrix(0.435616, 0, 0, 0.435616, 0, 0)
+  			// transform: matrix(sx,0,0,sy,0,0); 等同于 scale(sx, sy); 因为x/y放大倍数一致，所以取其中一个值就可以了。
+  			
+  			scale = parseFloat(matrix.replace(/[^0-9.\-,]/g,'').split(',')[0]);
+  			console.log(scale);
+  			scale += 0.1;
+
+  			oImg.css({
+  				'transform': 'scale(' + scale + ')',
+  				'transform-origin': 'center center'
+  			});
+	  	}
+	  
+	  	function smallerImage(){
+	  		var matrix = oImg.css('transform');
+  			console.log(matrix); //matrix(0.435616, 0, 0, 0.435616, 0, 0)
+  			// transform: matrix(sx,0,0,sy,0,0); 等同于 scale(sx, sy); 因为x/y放大倍数一致，所以取其中一个值就可以了。
+  			
+  			scale = parseFloat(matrix.replace(/[^0-9.\-,]/g,'').split(',')[0]);
+  			console.log(scale);
+  			scale -= 0.1;
+
+  			oImg.css({
+  				'transform': 'scale(' + scale + ')',
+  				'transform-origin': 'center center'
+  			});
+	  	}
+
+</script>
 
 </body>
 </html>

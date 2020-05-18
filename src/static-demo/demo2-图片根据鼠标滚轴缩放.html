@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>demo2 - zoomifyc的静态布局</title>
+	<link rel="stylesheet" type="text/css" href="../zoomifyc.css">
+	<meta charset="utf-8">
+
+	<style type="text/css">
+		.zoomifyc-tools {
+			position: absolute;
+			bottom: 2px;
+			width: 100%;
+			z-index: 1504;
+			text-align: center;
+			/*background-color: rgba(0, 0, 0, .3);*/
+
+		}
+		.zoomifyc-tools span {
+			display: inline-block;
+			border-radius: 6px;
+			box-sizing: border-box;
+			/*padding: 5px 15px;*/
+			padding: 0.5% 1%;
+			background-color: rgba(0, 0, 0, 0.6);
+			color: #fff;
+		}
+
+		.zoomifyc-tools .left-rotate img{
+			transform: rotateY(180deg) rotate(45deg);
+		}
+
+		.zoomifyc-tools .right-rotate img{
+			transform: rotate(45deg);
+		}
+		.zoomifyc-tools span>img {
+			width: 100%;
+		}
+
+
+
+		/*放大缩小*/
+		.zoomifyc-imgbox {
+			cursor: zoom-in;
+		}
+	</style>
+</head>
+<body>
+<div style="background-color: yellow;height: 2000px;"></div>
+<div id="zoomifycWrap" style="">
+	<div class="zoomifyc-shadow"></div>
+	<div class="zoomifyc-content" style="height: 100%; top: 0px;overflow: hidden;z-index: 1501;width: 99%;border: 1px solid;">
+<!-- 		<div class="zoomifyc-switch">
+			<span class="prev" style="">&lt;</span>
+			<span class="next">&gt;</span>
+		</div> -->
+<!-- 		<div class="zoomifyc-tools">
+			<span class="left-rotate" title="左旋90°">
+				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII=">
+			</span>
+			<span class="right-rotate" title="右旋90°">
+				<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII=">
+			</span>
+		</div> -->
+		<div class="zoomifyc-imgbox" style="width: 1080px; height: 599px;">
+			<span class="zoomifyc-close">x</span>
+			<img class="zoomifyc-img" src="../img/qz1.jpg" style="width:100%;position:absolute;">
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript" src="../jquery-3.5.0.min.js"></script>
+<script type="text/javascript">
+	var isFirefox = navigator.userAgent.indexOf("Firefox") > -1 ;
+	var MOUSEWHEEL_EVENT = isFirefox ? "DOMMouseScroll" : "mousewheel";
+	var oImg =  $('.zoomifyc-img');
+	var zone =  $('.zoomifyc-content');
+
+	
+
+	if(document.attachEvent){
+		zone[0].attachEvent("on"+MOUSEWHEEL_EVENT, function(e){
+			mouseWheelScroll(e);
+		});
+	} else if(document.addEventListener){
+		zone[0].addEventListener(MOUSEWHEEL_EVENT, function(e){
+			mouseWheelScroll(e);
+		}, false);
+	}
+
+
+
+	function mouseWheelScroll(e){
+		e.preventDefault();
+		var _delta = parseInt(e.wheelDelta || -e.detail);
+    	//向上滚动
+  		if (_delta > 0) {
+    		biggerImage();
+    	}
+    	//向下滚动
+    	else {
+        	smallerImage();
+    	}
+	}
+
+
+
+		var scale = 1;
+		var canGrag = false;
+		function biggerImage(){
+  			console.log(scale);
+  			scale += 0.1;
+  			if (scale >= 15)  {
+  				scale = 15;
+  				return;
+			}
+
+  			oImg.css({
+  				'transform': 'scale(' + scale + ')',
+  				'transform-origin': 'center center'
+  			});
+
+  			console.log(oImg.height()*scale, oImg[0].getBoundingClientRect().height)
+  			console.log($(window).height());
+  			if ($(window).height() <= oImg.height()*scale || $(window).width() <= oImg.width()*scale) {
+  				oImg.css('cursor', 'grab') //grabbing
+  				canGrag = true;
+  				drag();
+
+  			}
+	  	}
+	  
+	  	function smallerImage(){
+  			console.log(scale);
+  			
+  			scale -= 0.1;
+  			if (scale <= 0.1)  {
+  				scale = 0.1;
+  				return;
+			}
+
+  			oImg.css({
+  				'transform': 'scale(' + scale + ')',
+  				'transform-origin': 'center center'
+  			});
+	  	}
+
+
+ // if(canGrag) drag();
+function drag(callback) {
+	var _this = {};
+	_this.params = {
+		zoomVal: 1, // 初始缩放比例
+		minZoomVal: 0.2, // 最小缩放比例
+		left: 0, // 初始左边距
+		top: 0, // 初始上边距
+		currentX: 0, // 鼠标X坐标
+		currentY: 0, // 鼠标Y坐标
+		moveVal: 50, // 上下左右移动距离
+		wheelVal: 1200, // 放大缩小的值
+		flag: false
+	};
+
+
+	_this.bar = $('.zoomifyc-img');
+	_this.ele = $('.zoomifyc-img');
+    var _that = _this;
+    if (getCss("left") !== "auto") {
+        _this.params.left = getCss("left")
+    }
+    if (getCss("top") !== "auto") {
+        _this.params.top = getCss("top")
+    }
+    // o是移动对象
+    _this.bar.on("mousedown", function (event) {
+        _that.params.flag = true;
+        if (!event) {
+            event = window.event;
+            //防止IE文字选中
+            _that.bar.onselectstart = function () {
+                return false;
+            }
+        }
+        var e = event;
+        _that.params.currentX = e.clientX;
+        _that.params.currentY = e.clientY;
+    });
+    document.onmouseup = function () {
+        _that.params.flag = false;
+        if (getCss("left") !== "auto") {
+            _that.params.left = getCss("left");
+        }
+        if (getCss("top") !== "auto") {
+            _that.params.top = getCss("top");
+        }
+    };
+    document.onmousemove = function (event) {
+        var e = event ? event : window.event;
+        if (_that.params.flag) {
+            var nowX = e.clientX;
+            var nowY = e.clientY;
+            var disX = nowX - _that.params.currentX;
+            var disY = nowY - _that.params.currentY;
+
+            var maxTop = (oImg.height()*scale - $(window).height())/2;
+            var minTop = - maxTop;
+            var topVal = parseInt(_that.params.top) + disY;
+            if (topVal > 0 ) {
+            	topVal = Math.min(parseInt(_that.params.top) + disY , maxTop);
+            }
+            if (topVal < 0) {
+            	topVal = Math.max(parseInt(_that.params.top) + disY , minTop);
+            }
+            // var topVal = Math.min(parseInt(_that.params.top) + disY , maxTop);
+            console.log(parseInt(_that.params.top) + disY, maxTop, minTop, topVal)
+
+            _that.ele.css("top",topVal + "px");
+
+
+
+
+            // _that.ele.css("left", parseInt(_that.params.left) + disX + "px");
+            // _that.ele.css("top", parseInt(_that.params.top) + disY + "px");
+
+
+
+            if (typeof callback == "function") {
+                callback((parseInt(_that.params.left) || 0) + disX, (parseInt(_that.params.top) || 0) + disY);
+            }
+            if (event.preventDefault) {
+                event.preventDefault();
+            }
+            return false;
+        }
+    }
+}
+
+
+function getCss(key) {
+    return $('.zoomifyc-img').css(key);
+}
+</script>
+
+</body>
+</html>

@@ -24,6 +24,19 @@ $(document).ready(function(){
 });
 ```
 
+## Version
+v0.1.0
+1. 单击图片显示原图（大图会缩放成适配窗口大小）
+2. 左右按钮切换图片
+
+v0.1.1
+1. 添加旋转功能
+
+v0.1.2
+1. 显示原图原来采用transform的scale方式，改成直接设定图片宽度方式。
+2. 新增滚轴缩放图片
+3. 新增键盘方向键功能（上-放大；下-缩小；左-上一张；右-下一张）
+
 <!-- ## Options
 
 Property | Type | Default | Description

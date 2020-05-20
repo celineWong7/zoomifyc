@@ -201,13 +201,13 @@ zoomifyc = {
 
 
 		function mouseWheelScroll(e){
-			zoomifyc._preventDefault(e); // 阻止页面的滚动
+			zoomifyc._preventDefault(e); // 阻止默认的页面滚动
 			var _delta = parseInt(e.wheelDelta || -e.detail);
-			//向上滚动
-				if (_delta > 0) {
+			// 向上滚动
+			if (_delta > 0) {
 				zoomifyc.biggerImage();
 			}
-			//向下滚动
+			// 向下滚动
 			else {
 				zoomifyc.smallerImage();
 			}
@@ -240,6 +240,7 @@ zoomifyc = {
 
 		zoomifyc.setImgScale();
 	},
+	/** 阻止默认事件（兼容ie） */
 	_preventDefault: function(e){
 		if (e && e.preventDefault) {
 			e.preventDefault();

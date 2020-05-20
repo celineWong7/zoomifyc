@@ -10,64 +10,31 @@ var zoomifyc = {};
 zoomifyc = {
 	curImage: null, //  当前点击的图片（jq对象）
 	curIndex: 0, // 当前点击图片的索引
-	allImage: null, // 所有图片对象（jq对象列表）
-	_img: null, // #zoomifycWrap弹窗显示的图片对象
-	_content: null, // #zoomifycWrap弹窗的content
-	_zoomed: false, // 是否在放大状态
+	allImage: null, // $('#demo img') - 所有图片对象（jq对象列表）
+	_img: null, // $(#zoomifycWrap .zoomifyc-img) - 弹窗显示的图片对象
+	_content: null, // $(#zoomifycWrap .zoomifyc-content)
+	isShow: false, // 弹窗已打开
 	rotate: 0, // 旋转角度
 	scale: 1, // 放大倍数
-	// translateX: 0, // 水平平移
-	// translateY: 0, // 垂直平移
-	isGrag: false, // 可以拖拽
+	grabbing: false, // 是否拖拽中
+	translateX: 0, // 水平平移 - 拖拽
+	translateY: 0, // 垂直平移 - 拖拽
 	init: function(ele) {
 		zoomifyc.createWrap();
 
 		zoomifyc.allImage = ele;
-
 		ele.addClass('zoomifyc').on('click',function(e){
 			zoomifyc.curImage = $(this);
 			zoomifyc.curIndex = zoomifyc.allImage.index(zoomifyc.curImage);
 			zoomifyc.showWrap(zoomifyc.curImage.attr('src'));
 		});
-		$(window).on('resize', function () { zoomifyc.reposition(); });
-		$(document).on('scroll', function () { zoomifyc.reposition(); });//页面滚动时重绘，保证放大的图片在页面中央
-		$(window).on('keyup', function (e) { 
-			if (e.keyCode == 27) zoomifyc.hideWrap(); // esc按键-缩小效果
-		});
-
-
-		//键盘左右方向键
-		$(document).on('keydown', function(e){
-			e = e || window.event;
-			zoomifyc._preventDefault(e); // 阻止上下键的默认滚动事件
-			if (e.keyCode) {
-				console.log(e.keyCode);
-				if(e.keyCode == 37 ){ //left
-					zoomifyc.prev();
-				}
-				if(e.keyCode == 39 ){ //right
-					zoomifyc.next();
-				}
-				if(e.keyCode == 38 ){ //top
-					zoomifyc.biggerImage();
-				}
-				if(e.keyCode == 40 ){ //down
-					zoomifyc.smallerImage();
-				}
-			}
-		})
-
 		
-		zoomifyc.initMouseScroll(); // 滚轴-放大缩小
+		zoomifyc.initMouseScroll(); // 初始化滚轴-放大缩小
 		zoomifyc.initGrap(); // 初始化拖拽
+		zoomifyc.initPageEvent(); // 初始化页面监听事件
 	},
 	reset: function(){
-		zoomifyc._zoomed = false;
-		zoomifyc.setTransform(1,0); // scale-1 rotate-0
-		zoomifyc._img.css({
-			'top': 0,
-			'left': 0
-		});
+		zoomifyc.setTransform(1,0,0,0); // scale-1 rotate-0  translateX-0  translateY-0
 	},
 	createWrap: function() {
 		if ($('#zoomifycWrap').length > 0) return;
@@ -106,30 +73,23 @@ zoomifyc = {
 		$next2.on('click', zoomifyc.next);
 
 		$leftRotate.on('click', function() {
-			zoomifyc._img.css({
-				'top': 0,
-				'left': 0
-			});
 			zoomifyc.rotate -= 90;
-			zoomifyc.setTransform(1);
+			zoomifyc.setTransform(1,null,0,0);
 		});
 		$rightRotate.on('click', function() {
-			zoomifyc._img.css({
-				'top': 0,
-				'left': 0
-			});
 			zoomifyc.rotate += 90;
-			zoomifyc.setTransform(1);
+			zoomifyc.setTransform(1,null,0,0);
 		});
 	},
 	hideWrap: function() {
+		zoomifyc.isShow = false;
 		$('#zoomifycWrap').hide();
 		$('#zoomifycWrap .zoomifyc-img').attr('src', '');
 
 	},
 	showWrap: function(imgSrc) {
+		zoomifyc.isShow = true;
 		zoomifyc.reset();
-		zoomifyc._zoomed = true;
 		$('#zoomifycWrap').show();
 		$('#zoomifycWrap .zoomifyc-img').attr('src', imgSrc);
 
@@ -142,7 +102,7 @@ zoomifyc = {
 
 	},
 	reposition: function(){
-		if (!zoomifyc._zoomed) return;
+		if (!zoomifyc.isShow) return;
 		zoomifyc.calSizeAndPosition();
 	},
 	prev: function(){
@@ -180,7 +140,12 @@ zoomifyc = {
 	},
 	setTransform: function(s, r, x, y){
 		if (s) zoomifyc.scale = s;
-		var v = 'scale(' + zoomifyc.scale + ') rotate(' + zoomifyc.rotate + 'deg)';
+		if (r != undefined || r != null ) zoomifyc.rotate = r;
+		if (r != undefined || r != null) zoomifyc.translateX = x;
+		if (r != undefined || r != null) zoomifyc.translateY = y;
+
+		var v = 'scale(' + zoomifyc.scale + ') rotate(' + zoomifyc.rotate + 'deg) translateX(' + zoomifyc.translateX + 'px) translateY(' + zoomifyc.translateY + 'px)';
+		// console.log(v);
 		zoomifyc._img.css({
 			'-webkit-transform': v,
 			'-moz-transform': v,
@@ -208,19 +173,16 @@ zoomifyc = {
 		function mouseWheelScroll(e){
 			zoomifyc._preventDefault(e); // 阻止默认的页面滚动
 			var _delta = parseInt(e.wheelDelta || -e.detail);
-			// 向上滚动
-			if (_delta > 0) {
+
+			if (_delta > 0) {// 向上滚动
 				zoomifyc.biggerImage();
 			}
-			// 向下滚动
-			else {
+			else {// 向下滚动
 				zoomifyc.smallerImage();
 			}
 		}
 	},
 	biggerImage: function(){
-		zoomifyc._img = $('.zoomifyc-img');
-		// console.log(scale);
 		zoomifyc.scale += 0.1;
 		if (zoomifyc.scale >= 15)  {
 			zoomifyc.scale = 15;
@@ -229,12 +191,11 @@ zoomifyc = {
 
 		zoomifyc.setTransform();
 
-		// console.log(zoomifyc.scale, zoomifyc._img.height()*zoomifyc.scale, zoomifyc._img[0].getBoundingClientRect().height);
-		if ($(window).height() <= zoomifyc._img.height()*zoomifyc.scale || $(window).width() <= zoomifyc._img.width()*zoomifyc.scale) {
-			// zoomifyc._img.css('cursor', 'grab') //grabbing
-			// canGrag = true;
-			// drag();
-		}
+		// 图片放大到超出窗口时，初始化拖拽效果
+		// if ($(window).height() <= zoomifyc._img.height()*zoomifyc.scale || $(window).width() <= zoomifyc._img.width()*zoomifyc.scale) {
+		// 	zoomifyc._img.css('cursor', 'grab') //grabbing
+		// 	initGrap();
+		// }
 	},
 	smallerImage: function(){
 		zoomifyc.scale -= 0.1;
@@ -246,74 +207,99 @@ zoomifyc = {
 		zoomifyc.setTransform();
 	},
 	initGrap: function(){
-		var _this = {};
-		_this.params = {
-			// zoomVal: 1, // 初始缩放比例
-			// minZoomVal: 0.2, // 最小缩放比例
-			left: 0, // 初始左边距
-			top: 0, // 初始上边距
-			currentX: 0, // 鼠标X坐标
-			currentY: 0, // 鼠标Y坐标
-			// moveVal: 50, // 上下左右移动距离
-			// wheelVal: 1200, // 放大缩小的值
-			flag: false // 是否开始拖拽
-		};
+		var startX = 0, // 当前鼠标x坐标
+			startY  = 0, // 当前鼠标y坐标
+			translateX_ = 0, // 拖拽开始时图片的水平平移
+			translateY_ = 0, // 拖拽开始时图片的垂直平移
+			bar = zoomifyc._img, // 触发拖拽的指定区域
+			ele = zoomifyc._img; // 拖拽移动的元素
 
-
-		_this.bar = $('.zoomifyc-img');
-		_this.ele = $('.zoomifyc-img');
-		var _that = _this;
-		_this.ele.css('position', 'absolute');
-		if (getCss("left") !== "auto") {
-			_this.params.left = getCss("left")
-		}
-		if (getCss("top") !== "auto") {
-			_this.params.top = getCss("top")
-		}
-		// o是移动对象
-		_this.bar.on("mousedown", function (event) {
-			_that.params.flag = true;
-			if (!event) {
-				event = window.event;
-		//防止IE文字选中
-		_that.bar.onselectstart = function () {
-			return false;
-		}
-		}
-		var e = event;
-		_that.params.currentX = e.clientX;
-		_that.params.currentY = e.clientY;
+		// 鼠标按下时触发
+		bar.on('mousedown', function (e) {
+			zoomifyc.grabbing = true;
+			if (!e) {
+				e = window.e;
+				bar.onselectstart = function () { // 阻止IE文字选中默认事件
+					return false;
+				}
+			}
+			startX = e.clientX;
+			startY = e.clientY;
+			translateX_ = zoomifyc.translateX;
+			translateY_ = zoomifyc.translateY;
 		});
-		document.onmouseup = function () {
-			_that.params.flag = false;
-			if (getCss("left") !== "auto") {
-				_that.params.left = getCss("left");
-			}
-			if (getCss("top") !== "auto") {
-				_that.params.top = getCss("top");
-			}
-		};
-		document.onmousemove = function (event) {
+		// 鼠标松开时触发
+		$(document).on('mouseup', function () {
+			zoomifyc.grabbing = false;
+		});
+		// 鼠标按下移动时触发
+		$(document).on('mousemove', function (event) {
 			var e = event ? event : window.event;
-			if (_that.params.flag) {
-				var nowX = e.clientX;
-				var nowY = e.clientY;
-				var disX = nowX - _that.params.currentX;
-				var disY = nowY - _that.params.currentY;
+			if (zoomifyc.grabbing) {
+				var nowX = e.clientX; // 当前鼠标坐标
+				var nowY = e.clientY; // 当前鼠标坐标
+				var disX = nowX - startX;
+				var disY = nowY - startY;
 
-				_that.ele.css("left", parseInt(_that.params.left) + disX + "px");
-				_that.ele.css("top", parseInt(_that.params.top) + disY + "px");
+				zoomifyc.translateX = translateX_ + disX;
+				zoomifyc.translateY = translateY_ + disY;
+				zoomifyc.setTransform();
 
-				if (typeof callback == "function") {
-					callback((parseInt(_that.params.left) || 0) + disX, (parseInt(_that.params.top) || 0) + disY);
-				}
-				if (event.preventDefault) {
-					event.preventDefault();
-				}
+				zoomifyc._preventDefault();
 				return false;
 			}
-		}
-},
+		});
+	},
+	initPageEvent: function(){
+		// 调整窗口 - 缩放图片进行适配
+		$(window).on('resize', zoomifyc.reposition);
+
+		// 页面滚动 - 保证放大的图片在当前可视区域的中央
+		$(document).on('scroll', zoomifyc.reposition);
+
+		// 监听键盘按键
+		$(document).on('keydown', function(e){
+			e = e || window.event;
+			zoomifyc._preventDefault(e); // 阻止上下键的默认滚动事件
+			if (e.keyCode && zoomifyc.isShow) {
+				console.log(e.keyCode);
+
+				//键盘左右方向键 和 wasd字母按键
+				if(e.keyCode == 37 || e.keyCode == 65 ){ // left A
+					zoomifyc.prev();
+				}
+				if(e.keyCode == 39 || e.keyCode == 68 ){ // right D
+					zoomifyc.next();
+				}
+				if(e.keyCode == 38 || e.keyCode == 87 ){ // top W
+					zoomifyc.biggerImage();
+				}
+				if(e.keyCode == 40 || e.keyCode == 83 ){ // down S
+					zoomifyc.smallerImage();
+				}
+
+				// esc按键
+				if (e.keyCode == 27) {
+					if (zoomifyc.isShow) {
+						// 若处于缩放、旋转、平移时，恢复初始值
+						if (zoomifyc.scale != 1 || zoomifyc.rotate != 0 || zoomifyc.translateX != 0 || zoomifyc.translateY != 0) {
+							zoomifyc.reset();
+						}
+						// 退出图片弹窗
+						else {
+							zoomifyc.hideWrap();
+						}
+					}
+				}
+
+				// 字母r按键 - 旋转
+				if (e.keyCode == 82) {
+					zoomifyc.rotate += 90;
+					zoomifyc.setTransform(1,null,0,0);
+				}
+			}
+		});
+	},
 	/** 阻止默认事件（兼容ie） */
 	_preventDefault: function(e){
 		if (e && e.preventDefault) {

@@ -21,14 +21,14 @@
   },
   "homepage": "http://celineWong7.github.io/zoomifyc",
   "dependencies": {
-    "jquery": "~3.3.1"
+    "jquery": "~3.5.1"
   },
   "devDependencies": {
-    "grunt": "^1.0.3",
+    "grunt": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^3.0.0",
-    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-contrib-uglify": "^4.0.1",
     "grunt-sync-json": "^0.4.0",
-    "load-grunt-tasks": "^4.0.0"
+    "load-grunt-tasks": "^5.1.0"
   }
 }

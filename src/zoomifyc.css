@@ -93,7 +93,7 @@ img.zoomifyc {
 /*工具栏*/
 .zoomifyc-tools {
 	position: absolute;
-	bottom: 10%;
+	bottom: 2%;
 	width: 100%;
 	text-align: center;
 	/*background-color: rgba(0, 0, 0, .2);*/

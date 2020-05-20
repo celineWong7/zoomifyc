@@ -15,7 +15,9 @@ zoomifyc = {
 	_content: null, // #zoomifycWrap弹窗的content
 	_zoomed: false, // 是否在放大状态
 	rotate: 0, // 旋转角度
-	scale: 1,
+	scale: 1, // 放大倍数
+	// translateX: 0, // 水平平移
+	// translateY: 0, // 垂直平移
 	isGrag: false, // 可以拖拽
 	init: function(ele) {
 		zoomifyc.createWrap();
@@ -30,8 +32,7 @@ zoomifyc = {
 		$(window).on('resize', function () { zoomifyc.reposition(); });
 		$(document).on('scroll', function () { zoomifyc.reposition(); });//页面滚动时重绘，保证放大的图片在页面中央
 		$(window).on('keyup', function (e) { 
-			if (e.keyCode == 27) // esc按键-缩小效果
-				zoomifyc.hideWrap();
+			if (e.keyCode == 27) zoomifyc.hideWrap(); // esc按键-缩小效果
 		});
 
 
@@ -56,13 +57,17 @@ zoomifyc = {
 			}
 		})
 
-		// 滚轴-放大缩小
-		zoomifyc.initMouseScroll();
+		
+		zoomifyc.initMouseScroll(); // 滚轴-放大缩小
+		zoomifyc.initGrap(); // 初始化拖拽
 	},
 	reset: function(){
 		zoomifyc._zoomed = false;
-		zoomifyc.rotate = 0;
-		zoomifyc.rotateCss();
+		zoomifyc.setTransform(1,0); // scale-1 rotate-0
+		zoomifyc._img.css({
+			'top': 0,
+			'left': 0
+		});
 	},
 	createWrap: function() {
 		if ($('#zoomifycWrap').length > 0) return;
@@ -75,36 +80,46 @@ zoomifyc = {
 			$prev = $('<span class="prev">&lt;</span>'),
 			$next = $('<span class="next">&gt;</span>'),
 			$imgbox = $('<div class="zoomifyc-imgbox"></div>'),
-			$img = $('<img class="zoomifyc-img" src="" >');
-			$tools = $('<div class="zoomifyc-tools"></div>');
+			$img = $('<img class="zoomifyc-img" src="" >'),
+			$tools = $('<div class="zoomifyc-tools"></div>'),
 			$prev2 = $('<span class="prev" title="上一张">&lt;</span>'),
 			$next2 = $('<span class="next" title="下一张">&gt;</span>'),
-			$leftRotate = $('<span class="left-rotate" title="左旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>');
-			$rightRotate = $('<span class="right-rotate" title="右旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>');
+			$leftRotate = $('<span class="left-rotate" title="左旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>'),
+			$rightRotate = $('<span class="right-rotate" title="右旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>'),
+			$close2 = $('<span title="关闭">x</span>');
 
 		$imgbox.append($close,$img);
 		$switchBtn.append($prev, $next);
-		$tools.append($prev2, $next2, $leftRotate, $rightRotate);
+		$tools.append($prev2, $next2, $leftRotate, $rightRotate, $close2);
 		$content.append($switchBtn, $tools, $imgbox);
 		$wrap.append($shadow, $content);
 		$('body').append($wrap);
 		zoomifyc._content = $content;
 		zoomifyc._img = $img;
 
-		$shadow.on('click', zoomifyc.hideWrap)
-		$close.on('click', zoomifyc.hideWrap)
+		$shadow.on('click', zoomifyc.hideWrap);
+		$close.on('click', zoomifyc.hideWrap);
+		$close2.on('click', zoomifyc.hideWrap);
 		$prev.on('click', zoomifyc.prev);
 		$prev2.on('click', zoomifyc.prev);
 		$next.on('click', zoomifyc.next);
 		$next2.on('click', zoomifyc.next);
 
 		$leftRotate.on('click', function() {
+			zoomifyc._img.css({
+				'top': 0,
+				'left': 0
+			});
 			zoomifyc.rotate -= 90;
-			zoomifyc.rotateCss();
+			zoomifyc.setTransform(1);
 		});
 		$rightRotate.on('click', function() {
+			zoomifyc._img.css({
+				'top': 0,
+				'left': 0
+			});
 			zoomifyc.rotate += 90;
-			zoomifyc.rotateCss();
+			zoomifyc.setTransform(1);
 		});
 	},
 	hideWrap: function() {
@@ -138,50 +153,40 @@ zoomifyc = {
 		if (zoomifyc.curIndex == zoomifyc.allImage.length - 1) return;
 		zoomifyc.allImage.eq(zoomifyc.curIndex + 1).trigger('click');
 	},
-	calSizeAndPosition: function(){
+	calSizeAndPosition: function(d){
 		var $image = zoomifyc.curImage;
-		var	nWidth  = $image[0].naturalWidth || +Infinity,
-			nHeight = $image[0].naturalHeight || +Infinity,
-			wWidth  = $(window).width(),
-			wHeight = $(window).height(),
-			aWidth  = Math.min(nWidth, wWidth * 0.98),
-			aHeight = Math.min(nHeight, wHeight * 0.98),
+		var	nWidth_  = $image[0].naturalWidth || +Infinity, // 图片本身宽度 nature
+			nHeight_ = $image[0].naturalHeight || +Infinity,// 图片本身高度
+			nWidth = d == 'odd' ? nHeight_ : nWidth_, // 图片展示时的宽度（主要是旋转情况下，90*odd时宽高翻转）
+			nHeight = d == 'odd' ? nWidth_ : nHeight_, // 图片展示时的高度
+			wWidth  = $(window).width(), // 窗口宽度
+			wHeight = $(window).height(),// 窗口高度
+			aWidth  = Math.min(nWidth, wWidth * 0.98), // 适配窗口的宽度（大于窗口宽度则取98%，否则取图片本身宽度）
+			aHeight = Math.min(nHeight, wHeight * 0.98), // 适配窗口的高度 adapt
 			scaleX  = aWidth / nWidth,
 			scaleY  = aHeight / nHeight,
-			scale   = Math.min(scaleX, scaleY);
+			scale   = Math.min(scaleX, scaleY); // 取小的倍数，确保宽高都不会超出窗口
 
 		// console.log('nheight,wHeight,aHeight',nHeight,wHeight,aHeight);
 		// console.log('nwidth,wWidth,aWidth',nWidth,wWidth,aWidth);
-		zoomifyc.setCss('scale(' + scale + ')',  nWidth * scale , nHeight * scale);
-
-	},
-	setCss: function (s, w, h) {
 		$('#zoomifycWrap .zoomifyc-imgbox').css({
-			'width': w,
-			'height': h
+			'width': nWidth * scale,
+			'height': nHeight * scale
 		});
 		$('#zoomifycWrap .zoomifyc-content').css({
 			'height': $(window).height(),
 			'top': $(document).scrollTop()
 		});
 	},
-	setImgScale: function(n){
-		if (n) zoomifyc.scale = n;
+	setTransform: function(s, r, x, y){
+		if (s) zoomifyc.scale = s;
+		var v = 'scale(' + zoomifyc.scale + ') rotate(' + zoomifyc.rotate + 'deg)';
 		zoomifyc._img.css({
-			'transform': 'scale(' + zoomifyc.scale + ')',
-			'transform-origin': 'center center'
-		});
-	},
-	rotateCss: function(){
-		zoomifyc.setImgScale(1);
-		// console.log(zoomifyc.rotate)
-		var s = 'rotate(' + zoomifyc.rotate + 'deg)';
-		$('#zoomifycWrap .zoomifyc-imgbox').css({
-			'-webkit-transform': s,
-			'-moz-transform': s,
-			'-ms-transform': s,
-			'-o-transform': s,
-			'transform': s,
+			'-webkit-transform': v,
+			'-moz-transform': v,
+			'-ms-transform': v,
+			'-o-transform': v,
+			'transform': v,
 			'transform-origin': 'center center'
 		});
 	},
@@ -222,7 +227,7 @@ zoomifyc = {
 			return;
 		}
 
-		zoomifyc.setImgScale();
+		zoomifyc.setTransform();
 
 		// console.log(zoomifyc.scale, zoomifyc._img.height()*zoomifyc.scale, zoomifyc._img[0].getBoundingClientRect().height);
 		if ($(window).height() <= zoomifyc._img.height()*zoomifyc.scale || $(window).width() <= zoomifyc._img.width()*zoomifyc.scale) {
@@ -238,8 +243,77 @@ zoomifyc = {
 			return;
 		}
 
-		zoomifyc.setImgScale();
+		zoomifyc.setTransform();
 	},
+	initGrap: function(){
+		var _this = {};
+		_this.params = {
+			// zoomVal: 1, // 初始缩放比例
+			// minZoomVal: 0.2, // 最小缩放比例
+			left: 0, // 初始左边距
+			top: 0, // 初始上边距
+			currentX: 0, // 鼠标X坐标
+			currentY: 0, // 鼠标Y坐标
+			// moveVal: 50, // 上下左右移动距离
+			// wheelVal: 1200, // 放大缩小的值
+			flag: false // 是否开始拖拽
+		};
+
+
+		_this.bar = $('.zoomifyc-img');
+		_this.ele = $('.zoomifyc-img');
+		var _that = _this;
+		_this.ele.css('position', 'absolute');
+		if (getCss("left") !== "auto") {
+			_this.params.left = getCss("left")
+		}
+		if (getCss("top") !== "auto") {
+			_this.params.top = getCss("top")
+		}
+		// o是移动对象
+		_this.bar.on("mousedown", function (event) {
+			_that.params.flag = true;
+			if (!event) {
+				event = window.event;
+		//防止IE文字选中
+		_that.bar.onselectstart = function () {
+			return false;
+		}
+		}
+		var e = event;
+		_that.params.currentX = e.clientX;
+		_that.params.currentY = e.clientY;
+		});
+		document.onmouseup = function () {
+			_that.params.flag = false;
+			if (getCss("left") !== "auto") {
+				_that.params.left = getCss("left");
+			}
+			if (getCss("top") !== "auto") {
+				_that.params.top = getCss("top");
+			}
+		};
+		document.onmousemove = function (event) {
+			var e = event ? event : window.event;
+			if (_that.params.flag) {
+				var nowX = e.clientX;
+				var nowY = e.clientY;
+				var disX = nowX - _that.params.currentX;
+				var disY = nowY - _that.params.currentY;
+
+				_that.ele.css("left", parseInt(_that.params.left) + disX + "px");
+				_that.ele.css("top", parseInt(_that.params.top) + disY + "px");
+
+				if (typeof callback == "function") {
+					callback((parseInt(_that.params.left) || 0) + disX, (parseInt(_that.params.top) || 0) + disY);
+				}
+				if (event.preventDefault) {
+					event.preventDefault();
+				}
+				return false;
+			}
+		}
+},
 	/** 阻止默认事件（兼容ie） */
 	_preventDefault: function(e){
 		if (e && e.preventDefault) {
@@ -249,7 +323,21 @@ zoomifyc = {
 			window.event.returnValue = false;
 		}
 		return false;
+	},
+
+
+}
+
+
+var Util = {};
+Util = {
+	oddOReven: function(n){
+		n = parseInt(n)
+		if (n%2 == 0) return 'even';
+		else return 'odd';
 	}
+}
 
-
+function getCss(key) {
+    return $('.zoomifyc-img').css(key);
 }

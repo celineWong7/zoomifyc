@@ -124,9 +124,9 @@
   			console.log(oImg.height()*scale, oImg[0].getBoundingClientRect().height)
   			console.log($(window).height());
   			if ($(window).height() <= oImg.height()*scale || $(window).width() <= oImg.width()*scale) {
-  				oImg.css('cursor', 'grab') //grabbing
-  				canGrag = true;
-  				drag();
+  				// oImg.css('cursor', 'grab') //grabbing
+  				// canGrag = true;
+  				// drag();
 
   			}
 	  	}
@@ -146,7 +146,7 @@
   			});
 	  	}
 
-
+drag();
  // if(canGrag) drag();
 function drag(callback) {
 	var _this = {};
@@ -206,12 +206,12 @@ function drag(callback) {
             var maxTop = (oImg.height()*scale - $(window).height())/2;
             var minTop = - maxTop;
             var topVal = parseInt(_that.params.top) + disY;
-            if (topVal > 0 ) {
-            	topVal = Math.min(parseInt(_that.params.top) + disY , maxTop);
-            }
-            if (topVal < 0) {
-            	topVal = Math.max(parseInt(_that.params.top) + disY , minTop);
-            }
+            // if (topVal > 0 ) {
+            // 	topVal = Math.min(parseInt(_that.params.top) + disY , maxTop);
+            // }
+            // if (topVal < 0) {
+            // 	topVal = Math.max(parseInt(_that.params.top) + disY , minTop);
+            // }
             // var topVal = Math.min(parseInt(_that.params.top) + disY , maxTop);
             console.log(parseInt(_that.params.top) + disY, maxTop, minTop, topVal)
 
@@ -220,7 +220,7 @@ function drag(callback) {
 
 
 
-            // _that.ele.css("left", parseInt(_that.params.left) + disX + "px");
+            _that.ele.css("left", parseInt(_that.params.left) + disX + "px");
             // _that.ele.css("top", parseInt(_that.params.top) + disY + "px");
 
 

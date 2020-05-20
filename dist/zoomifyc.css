@@ -24,6 +24,7 @@ img.zoomifyc {
 .zoomifyc-content {
 	position: absolute;
 	width: 100%;
+	/*z-index: 1500; 不要设置索引*/
 	/*top: 0;需要计算*/
 }
 
@@ -37,7 +38,7 @@ img.zoomifyc {
 	margin: auto;
 	width: 600px; /*需要计算*/
 	height: 500px; /*需要计算*/
-	z-index: 1501;
+	z-index: 1502;
 }
 
 /*上下切换按钮*/
@@ -52,7 +53,7 @@ img.zoomifyc {
 	width: 60%;
 	padding: 0 10px;
 	font-size: 40px;
-	/*z-index: 1502;*/
+	/*z-index: 1503;*/
 }
 .zoomifyc-switch>span {
 	position: relative;
@@ -107,6 +108,7 @@ img.zoomifyc {
 	background-color: rgba(0, 0, 0, 0.6);
 	color: #fff;
 	margin: 0 2px;
+	font-size: 26px;
 	/*z-index: 1503;*/
 }
 .zoomifyc-tools .left-rotate img{

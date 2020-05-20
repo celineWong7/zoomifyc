@@ -28,7 +28,7 @@ img.zoomifyc {
 	/*top: 0;需要计算*/
 }
 
-/*缩放图片*/
+/*图片容器*/
 .zoomifyc-imgbox {
 	position: absolute;
 	top: 0;
@@ -39,6 +39,10 @@ img.zoomifyc {
 	width: 600px; /*需要计算*/
 	height: 500px; /*需要计算*/
 	z-index: 1502;
+}
+/*图片*/
+#zoomifycWrap .zoomifyc-img {
+	width: 100%;
 }
 
 /*上下切换按钮*/

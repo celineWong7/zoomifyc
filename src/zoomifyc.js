@@ -141,10 +141,10 @@ zoomifyc = {
 	setTransform: function(s, r, x, y){
 		if (s) zoomifyc.scale = s;
 		if (r != undefined || r != null ) zoomifyc.rotate = r;
-		if (r != undefined || r != null) zoomifyc.translateX = x;
-		if (r != undefined || r != null) zoomifyc.translateY = y;
+		if (x != undefined || x != null) zoomifyc.translateX = x;
+		if (y != undefined || y != null) zoomifyc.translateY = y;
 
-		var v = 'scale(' + zoomifyc.scale + ') rotate(' + zoomifyc.rotate + 'deg) translateX(' + zoomifyc.translateX + 'px) translateY(' + zoomifyc.translateY + 'px)';
+		var v = 'scale(' + zoomifyc.scale + ') translateX(' + zoomifyc.translateX + 'px) translateY(' + zoomifyc.translateY + 'px) rotate(' + zoomifyc.rotate + 'deg)';
 		// console.log(v);
 		zoomifyc._img.css({
 			'-webkit-transform': v,
@@ -231,6 +231,8 @@ zoomifyc = {
 		// 鼠标松开时触发
 		$(document).on('mouseup', function () {
 			zoomifyc.grabbing = false;
+			translateX_ = zoomifyc.translateX;
+			translateY_ = zoomifyc.translateY;
 		});
 		// 鼠标按下移动时触发
 		$(document).on('mousemove', function (event) {
@@ -243,6 +245,7 @@ zoomifyc = {
 
 				zoomifyc.translateX = translateX_ + disX;
 				zoomifyc.translateY = translateY_ + disY;
+				// console.log(translateX_, disX, zoomifyc.translateX);
 				zoomifyc.setTransform();
 
 				zoomifyc._preventDefault();
@@ -262,7 +265,7 @@ zoomifyc = {
 			e = e || window.event;
 			zoomifyc._preventDefault(e); // 阻止上下键的默认滚动事件
 			if (e.keyCode && zoomifyc.isShow) {
-				console.log(e.keyCode);
+				// console.log(e.keyCode);
 
 				//键盘左右方向键 和 wasd字母按键
 				if(e.keyCode == 37 || e.keyCode == 65 ){ // left A
@@ -291,7 +294,6 @@ zoomifyc = {
 						}
 					}
 				}
-
 				// 字母r按键 - 旋转
 				if (e.keyCode == 82) {
 					zoomifyc.rotate += 90;

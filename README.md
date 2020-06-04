@@ -47,6 +47,9 @@ $(document).ready(function(){
 1. 修复翻转时没有重置平移为0
 2. 修复翻转后拖拽时坐标不一致问题：改变translate和rotate的应用顺序。
 
+* v0.2.2
+1. 修复关闭按钮使用字母x，改用doc文档的打叉符号。
+
 <!-- ## Options
 
 Property | Type | Default | Description

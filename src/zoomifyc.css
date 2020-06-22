@@ -17,7 +17,7 @@ img.zoomifyc {
 }
 .zoomifyc-shadow {
 	opacity: 1;
-	cursor: zoom-out;
+	/*cursor: zoom-out;*/
 }
 
 /*内容块*/

@@ -24,6 +24,7 @@ img.zoomifyc {
 .zoomifyc-content {
 	position: absolute;
 	width: 100%;
+	left: 0; /*避免body有margin时，默认left不是0*/
 	/*z-index: 1500; 不要设置索引*/
 	/*top: 0;需要计算*/
 }

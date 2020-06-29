@@ -80,8 +80,8 @@ img.zoomifyc {
 /*关闭按钮*/
 .zoomifyc-content .zoomifyc-close {
 	position: absolute;
-	top: -15px;
-	right: -15px;
+	top: -8px;
+	right: -8px;
 	display: inline-block;
 	width: 20px;
 	height: 20px;

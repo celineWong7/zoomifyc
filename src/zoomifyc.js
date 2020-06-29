@@ -51,8 +51,8 @@ zoomifyc = {
 			$tools = $('<div class="zoomifyc-tools"></div>'),
 			$prev2 = $('<span class="prev" title="上一张">&lt;</span>'),
 			$next2 = $('<span class="next" title="下一张">&gt;</span>'),
-			$leftRotate = $('<span class="left-rotate" title="左旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>'),
-			$rightRotate = $('<span class="right-rotate" title="右旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAUCAYAAABroNZJAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAABJUlEQVQ4y6WRsSuEcRjHP897KEqmK5NSJ4tISdkswmJQJhOjyWJisZoNyj8gpbNYLP4Hug2L4VJM5wYpH4M3vXfdubv3vuPzfJ/P7/k+P+ggdbiTp6PUO3VPHegHcu+vKupaL4OJupRuULVRF+pg1p80DYe6C9wCy8Az8JGxlIGjiPhq9/qQeqnuZ/OncSrqSjcRztXVFvWNro6qrqvHua+fQq7V0bzziVoEahFRyw0BZoCHfpIkwAiN35gL8gqM5xlWD9XFJI0ym3OJBaCSRMQn8KaWetxiEqhHRP2voJbVQpeAUK/UqebGlnrWCaQW1FN1u51hU71R59v059L+TrYeLYwTwAEwDTwC78AYUAKegJOIePkXks3N79cXU1A1Ir5beX8AuajeueMcwmIAAAAASUVORK5CYII="></span>'),
+			$leftRotate = $('<span class="left-rotate" title="左旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACG0lEQVRYR8VX0TUEQRCsigARIAJkQARk4C4CRIAIEAEiIANE4ERACERQXp2ZfWPM7s2ue3v93v3c9UxXV9d09xErNq44Pv4AkLQPQAC+SM7aACZ+cxeSL0OSKQFwcNsLSYOZm6R1AMcAJgB2W4IZ8COAe5IfNYCqAEg6BXAOwCBq7RrAJcnPrgOdAAAcAXgA0DARLrsH4AxjllsA/LH/WhLQwQ+6StkF4C1oIdL9BeACwF1XVpJcIvttJkCmJO9KTHQBSP0NZtKVSX65JAe0ZqLtlc7XAHDmW4tqWcousHEbfnM5tvN7agCktY5xzmrZyJi4IWlBN1YDoJSchfVc+xwkOYmoCbPQPNGxAFiYsRR+mhbp3EZrxZKsAT/RGcm9VQBwhzycZ002iY/JgGl3N7U1GhoTgNV/1QogTLen4NDauWqVX2hMvQD8UurQoOk5SYtLICmOYo9TP52lmaTFIpTkeb4D4JPkxtKi/+wT8Rm+kWz2iV8izGhamg6ymdDeiCR5pr+HzD9Ibi+Dhb6tOB2jnv3T/4AYMoy8dnlYxM1mcCky6otjvdiIJFkkr0nmvZkYvJDEoBl6f21WLkh6H2y1cM4t13qKVr+SZc3DTHju54um33S+lNrXy2u6OZv2/V5LaaGF+kJ3sZOeYrwJjPVby9uChCfq7ujV282qZF5ezY41M+yPSW2WYXg17n1WtDTGaOO4LbGVA/gGRjEFMCYhR1AAAAAASUVORK5CYII="></span>'),
+			$rightRotate = $('<span class="right-rotate" title="右旋90°"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACQUlEQVRYR8VX21EbQRDsjsA4AkME4AiMIzCOwBABZACOwEUEhgycARABJgJLGUAETbVq9lit9k57J8lMlT4k7aOn59VLvLPxne/HZACSjgEoOUDyoc8ZSUcAPvj/cl0zAEn7AH4AOAHgA2v2F8ANgFuSz2mBpHsAXwLA0p1rAUjaA/ALwOmIcPnyK5LX3jMZQFB3B8Agkr0A+ANgFh//bnYSQzlOe/491o9jQJI9/p2dNg+vTHHVgi3vM2PJHBYzfdgcgvD8MTvEMW0OQew30MWluZEczoHw4l9G+xnJXq/XsOEwLbI/WQsAX+ZstzV7Hl7n1Oe50QYgSs3e2+YknVhNFn3BCTtogwxIugJwGSeMon5bAJyxTpwXknnprXNs8v9LGSkptdbm2E++OTZ2AAoKf5J0OHZufQBGxX8TlP8NgKSLrEN+Jek2/TaOdx2CosJWARjNLpNQkgfYt4XXWTsuqyCV4TPJj5vEttwrySPabfmJZKcnSgCTG9EQ2GKyLlVYCcCtN7XiGcmDbbAgyUPpU5x1QNLfF7aiiCTlw+iG5NkmIIrzrkm6GjqrAXALzsfo5J5QUG8ltZ9rxSoDUQ1OklyQjGai8NzHfibpJF+yXlFakWRmxULztiHhPFHzUd7L4qAqDpHhjpWrGpdTTZSaNb8VSgF7XPO8Nwkr9esDXZ7nI5PRktyMde+D2v6174K0KdSShakfJitiM9Y9BTvOma7UhoA3A6gwY7rfyimGy0iWpr8Nx17Ut34yA9sC8Aq4/fQh78hMGQAAAABJRU5ErkJggg=="></span>'),
 			$close2 = $('<span title="关闭">×</span>');
 
 		$imgbox.append($close,$img);
@@ -313,19 +313,4 @@ zoomifyc = {
 		return false;
 	},
 
-
-}
-
-
-var Util = {};
-Util = {
-	oddOReven: function(n){
-		n = parseInt(n)
-		if (n%2 == 0) return 'even';
-		else return 'odd';
-	}
-}
-
-function getCss(key) {
-    return $('.zoomifyc-img').css(key);
 }

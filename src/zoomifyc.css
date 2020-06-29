@@ -115,15 +115,12 @@ img.zoomifyc {
 	font-size: 26px;
 	/*z-index: 1503;*/
 }
-.zoomifyc-tools .left-rotate img{
-	transform: rotateY(180deg) rotate(45deg);
+.zoomifyc-tools .left-rotate img,
+.zoomifyc-tools .right-rotate img {
+	width: 22px;
+	vertical-align: middle;
 }
-.zoomifyc-tools .right-rotate img{
-	transform: rotate(45deg);
-}
-.zoomifyc-tools span>img {
-	width: 100%;
-}
+
 
 /*操作按钮*/
 .zoomifyc-close,

@@ -154,6 +154,13 @@ zoomifyc = {
 			'transform': v,
 			'transform-origin': 'center center'
 		});
+
+		// 右上角的关闭按钮
+		if (zoomifyc.isAdaptSize()) {
+			$('#zoomifycWrap .zoomifyc-close').show();
+		} else {
+			$('#zoomifycWrap .zoomifyc-close').hide();
+		}
 	},
 	initMouseScroll: function(){
 		var isFirefox = navigator.userAgent.indexOf("Firefox") > -1 ;
@@ -285,7 +292,7 @@ zoomifyc = {
 				if (e.keyCode == 27) {
 					if (zoomifyc.isShow) {
 						// 若处于缩放、旋转、平移时，恢复初始值
-						if (zoomifyc.scale != 1 || zoomifyc.rotate != 0 || zoomifyc.translateX != 0 || zoomifyc.translateY != 0) {
+						if (!zoomifyc.isAdaptSize()) {
 							zoomifyc.reset();
 						}
 						// 退出图片弹窗
@@ -301,6 +308,9 @@ zoomifyc = {
 				}
 			}
 		});
+	},
+	isAdaptSize: function(){
+		return zoomifyc.scale == 1 && zoomifyc.rotate%360 == 0 && zoomifyc.translateX == 0 && zoomifyc.translateY == 0;
 	},
 	/** 阻止默认事件（兼容ie） */
 	_preventDefault: function(e){

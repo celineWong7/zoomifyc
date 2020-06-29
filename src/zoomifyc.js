@@ -304,6 +304,11 @@ zoomifyc = {
 	},
 	/** 阻止默认事件（兼容ie） */
 	_preventDefault: function(e){
+		// 图片层未显示，则不阻止默认事件
+		if (!zoomifyc.isShow) {
+			return;
+		}
+
 		if (e && e.preventDefault) {
 			e.preventDefault();
 		}

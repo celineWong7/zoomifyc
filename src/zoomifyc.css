@@ -55,8 +55,9 @@ img.zoomifyc {
 	left: 0;
 	height: 50px;
 	margin: auto;
-	width: 60%;
-	padding: 0 10px;
+	width: 98%;
+	max-width: 1200px;
+	/*padding: 0 10px;*/
 	font-size: 40px;
 	/*z-index: 1503;*/
 }

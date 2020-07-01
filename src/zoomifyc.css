@@ -116,10 +116,10 @@ img.zoomifyc {
 	font-size: 26px;
 	/*z-index: 1503;*/
 }
-.zoomifyc-tools .left-rotate img,
-.zoomifyc-tools .right-rotate img {
+.zoomifyc-tools span>img,
+.zoomifyc-tools span>img {
 	width: 22px;
-	vertical-align: middle;
+	/*vertical-align: middle;*/
 }
 
 

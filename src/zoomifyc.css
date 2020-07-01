@@ -65,10 +65,6 @@ img.zoomifyc {
 	position: relative;
 	padding: 1% 1%;
 	border-radius: 5px;
-/*	color: #fff;
-	background: rgba(0,0,0,0.6);
-	z-index: 1503;
-	*/
 }
 .zoomifyc-switch .prev {
 	float: left;
@@ -78,7 +74,7 @@ img.zoomifyc {
 	float: right;
 }
 
-/*关闭按钮*/
+/*左上角关闭按钮*/
 .zoomifyc-content .zoomifyc-close {
 	position: absolute;
 	top: -8px;
@@ -90,9 +86,6 @@ img.zoomifyc {
 	text-align: center;
 	border-radius: 20px;
 	display: none;
-/*	background-color: rgba(0,0,0,0.6);
-	color: #fff;
-	z-index: 1503;*/
 }
 
 
@@ -111,32 +104,29 @@ img.zoomifyc {
 	/*padding: 5px 15px;*/
 	padding: 0.5% 1%;
 	border-radius: 6px;
-	background-color: rgba(0, 0, 0, 0.6);
 	color: #fff;
 	margin: 0 2px;
 	font-size: 26px;
 	/*z-index: 1503;*/
 }
-.zoomifyc-tools span>img,
-.zoomifyc-tools span>img {
+.zoomifyc-tools span>img{
 	width: 22px;
 	/*vertical-align: middle;*/
 }
 
 
 /*操作按钮*/
-.zoomifyc-close,
-.zoomifyc-switch .prev,
-.zoomifyc-switch .next,
-.zoomifyc-tools span {
+.zoomifyc-content .btn{
 	color: #fff;
-	background-color: rgba(0,0,0,0.6);
+	background-color: #000;
+	opacity: .6;
 	cursor: pointer;
 	z-index: 1503;
 }
-.zoomifyc-close:hover,
-.zoomifyc-switch .prev:hover,
-.zoomifyc-switch .next:hover,
-.zoomifyc-tools span:hover {
-	background-color: rgba(0,0,0,0.8);
+.zoomifyc-content .btn:hover{
+	opacity: .8;
+}
+.zoomifyc-content .btn.disabled {
+	opacity: .3;
+	cursor: not-allowed;
 }

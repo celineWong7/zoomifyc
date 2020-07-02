@@ -21,7 +21,7 @@
   },
   "homepage": "http://celineWong7.github.io/zoomifyc",
   "dependencies": {
-    "jquery": "~3.5.1"
+    "jquery": "~3.5.0"
   },
   "devDependencies": {
     "grunt": "^1.1.0",
